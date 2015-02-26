@@ -301,8 +301,7 @@
             // Plug-in initialization is required
             // Defaults
             var settings = $.extend({}, $.fn.locationpicker.defaults, options );
-            // Initialize
-            var gmapContext = new GMapContext(this, {
+            var mapOptions = $.extend({},{
                 zoom: settings.zoom,
                 center: new google.maps.LatLng(settings.location.latitude, settings.location.longitude),
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -314,7 +313,9 @@
                 locationName: settings.locationName,
                 settings: settings,
                 draggable: settings.draggable
-            });
+            }, settings.mapOptions);
+            // Initialize
+            var gmapContext = new GMapContext(this, mapOptions);
             $target.data("locationpicker", gmapContext);
             // Subscribe GMap events
             google.maps.event.addListener(gmapContext.marker, "dragend", function(event) {
@@ -338,6 +339,7 @@
         radius: 500,
         zoom: 15,
         scrollwheel: true,
+        mapOptions: {},
         inputBinding: {
             latitudeInput: null,
             longitudeInput: null,
